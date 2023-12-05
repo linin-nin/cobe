@@ -1,27 +1,58 @@
 "use client"
-import { Canvas, useLoader } from "@react-three/fiber"
-import { TextureLoader } from 'three'
 
-const Cobe = () => {
+import React, { useEffect, useRef } from 'react';
+import * as THREE from 'three';
 
-  const [color, normal, aoMap] = useLoader(TextureLoader, [
-    "/public/16 amazing photos of Earth pinned from space by astronaut Karen Nyberg.jpeg",
-    "/public/download (1).jpeg",
-    "/public/download.jpeg"
-  ])
+// import './styles.css';
+
+export default function App() {
+  const canvasRef = useRef();
+
+  useEffect(() => {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    canvasRef.current.appendChild(renderer.domElement);
+
+    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00aaff });
+    const globe = new THREE.Mesh(geometry, material);
+
+    scene.add(globe);
+
+    camera.position.z = 5;
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      globe.rotation.x += 0.005;
+      globe.rotation.y += 0.005;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      // Clean up resources here if needed
+    };
+  }, []);
 
   return (
-    <div className="flex justify-center items-center">
-        <Canvas>
-          <ambientLight intensity={0.1} />
-          <directionalLight intensity={3.5} position={[1, 0, -.25]} />
-          <mesh scale={2.5}>
-              <sphereGeometry args={[1,32,32]} />
-              <meshStandardMaterial map = {color} />
-          </mesh>
-        </Canvas>
+    <div className="App">
+      <h1>Simple WebGL Globe</h1>
+      <canvas ref={canvasRef} />
     </div>
-  )
+  );
 }
-
-export default Cobe

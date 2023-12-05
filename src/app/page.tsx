@@ -2,7 +2,7 @@ import Cobe from "@/components/cobe"
 
 export default function Home() {
   return (
-    <main className="bg-green-400 rounded-md m-20 h-[500px]">
+    <main className="h-[200vh] bg-red-500 rounded-md m-20">
       <Cobe/>
     </main>
   )
