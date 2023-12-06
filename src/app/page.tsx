@@ -1,9 +1,9 @@
-import Cobe from "@/components/cobe"
+import Earth from "@/components/cobe"
 
 export default function Home() {
   return (
-    <main className="h-[200vh] bg-red-500 rounded-md m-20">
-      <Cobe/>
+    <main className="m-20">
+      <Earth/>
     </main>
   )
 }
