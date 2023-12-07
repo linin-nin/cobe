@@ -2,7 +2,7 @@ import Earth from "@/components/cobe"
 
 export default function Home() {
   return (
-    <main className="m-20">
+    <main className="bg-black h-[100vh]">
       <Earth/>
     </main>
   )
